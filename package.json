@@ -5,7 +5,8 @@
   "main": "index.js",
   "license": "ISC",
   "dependencies": {
-    "@skynexui/components": "^1.25.0",
+    "@skynexui/components": "latest",
+    "@supabase/supabase-js": "^1.29.1",
     "next": "^12.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

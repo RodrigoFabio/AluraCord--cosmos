@@ -3,42 +3,11 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import appConfig from '../config.json';
 
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: "Open Sans", sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  );
-}
-
+var sinalizador =0;
 function Titulo(props) {
   const Tag = props.tag || 'h1';
   return (
     <>
-      <GlobalStyle />
       <Tag>{props.children}</Tag>
       <style jsx>
         {`
@@ -61,26 +30,26 @@ function Titulo(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-  // const username = 'omariosouto';
-  const [username, setUsername] = React.useState("RodrigoFabion");
+  //const username = 'omariosouto';
+  const [username, setUsername] = React.useState("");
   const roteamento = useRouter();
 
   return (
     <>
-      <Box
+      <Box //fundo geral com a imagem do cosmos
         styleSheet={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: appConfig.theme.colors.primary[500],
           backgroundImage:
-            "url(https://images8.alphacoders.com/503/503792.jpg)",
+            "url(https://image.winudf.com/v2/image/Y29tLmFuZHJvbW8uZGV2NDg2Mjc2LmFwcDQ0NDY4N19zY3JlZW5zaG90c18wX2Y5ZWRkZTdh/screen-0.jpg?fakeurl=1&type=.webp)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundBlendMode: "multiply",
         }}
       >
-        <Box
+        <Box  //caixa onde estarão a foto, nome 
           styleSheet={{
             display: "flex",
             alignItems: "center",
@@ -95,18 +64,23 @@ export default function PaginaInicial() {
             padding: "32px",
             margin: "16px",
             boxShadow: "0 2px 10px 0 rgb(0 0 0 / 20%)",
-            backgroundColor: appConfig.theme.colors.neutrals[700],
+            backgroundColor: 'rgba(41,51,61,80%)',
           }}
         >
           {/* Formulário */}
           <Box
             as="form"
+            
             onSubmit={function (infosDoEvento) {
-              infosDoEvento.preventDefault();
-              console.log("Alguém submeteu o form");
-              roteamento.push("/chat");
+                infosDoEvento.preventDefault();
+                console.log("Alguém submeteu o form");
+                  {username && (
+                    roteamento.push(`/chat?username=${username}`)
+                  )}
+             
               // window.location.href = '/chat';
             }}
+            
             styleSheet={{
               display: "flex",
               flexDirection: "column",
@@ -128,7 +102,7 @@ export default function PaginaInicial() {
               {appConfig.name}
             </Text>
 
-            {/* <input
+            {/*} <input
                               type="text"
                               value={username}
                               onChange={function (event) {
@@ -138,7 +112,8 @@ export default function PaginaInicial() {
                                   // Trocar o valor da variavel
                                   // através do React e avise quem precisa
                                   setUsername(valor);
-                              }}
+                              }} 
+                              style={{width:'320px', height:'40px', marginBottom:'5px'}}
                           /> */}
             <TextField
               value={username}
@@ -146,9 +121,11 @@ export default function PaginaInicial() {
                 console.log("usuario digitou", event.target.value);
                 // Onde ta o valor?
                 const valor = event.target.value;
+                const teste = event.nativeEvent.stopImmediatePropagation;
                 // Trocar o valor da variavel
                 // através do React e avise quem precisa
                 setUsername(valor);
+                sinalizador = 1;
               }}
               fullWidth
               textFieldColors={{
@@ -160,17 +137,17 @@ export default function PaginaInicial() {
                 },
               }}
             />
-            <Button
-              type="submit"
-              label="Entrar"
-              fullWidth
-              buttonColors={{
-                contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[600],
-                mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[600],
-              }}
-            />
+              <Button
+                type="submit"
+                label="Entrar"
+                fullWidth
+                buttonColors={{
+                  contrastColor: appConfig.theme.colors.neutrals["000"],
+                  mainColor: appConfig.theme.colors.primary[600],
+                  mainColorLight: appConfig.theme.colors.primary[400],
+                  mainColorStrong: appConfig.theme.colors.primary[600],
+                }}
+              />
           </Box>
           {/* Formulário */}
 
